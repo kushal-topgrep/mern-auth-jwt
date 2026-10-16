@@ -11,8 +11,6 @@ import { setCredentials } from '../slices/authSlice';
 const ProfileScreen = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const dispatch = useDispatch();
 
@@ -21,45 +19,50 @@ const ProfileScreen = () => {
   const [updateProfile, { isLoading }] = useUpdateUserMutation();
 
   useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.name]);
+    if (userInfo) {
+      setName(userInfo.name || '');
+      setEmail(userInfo.email || '');
+    }
+  }, [userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-    } else {
-      try {
-        const res = await updateProfile({
-          _id: userInfo._id,
-          name,
-          email,
-          password,
-        }).unwrap();
-        console.log(res);
-        dispatch(setCredentials(res));
-        toast.success('Profile updated successfully');
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+    try {
+      const res = await updateProfile({
+        _id: userInfo._id,
+        name,
+        email,
+      }).unwrap();
+      dispatch(setCredentials(res));
+      toast.success('Profile updated successfully');
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
+
   return (
     <FormContainer>
-      <h1>Update Profile</h1>
+      <h1 className='mb-3'>User Profile</h1>
+
+      <div className='mb-4 p-3 bg-light border rounded d-flex align-items-center gap-2 text-muted small'>
+        <span style={{ fontSize: '1.25rem', color: '#0284c7' }}>⬡</span>
+        <span>
+          Authenticated via <strong>Quant0</strong>. Passwords and credentials are managed through your Quant0 identity provider.
+        </span>
+      </div>
 
       <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='name'>
+        <Form.Group className='my-3' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
-            type='name'
+            type='text'
             placeholder='Enter name'
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group className='my-2' controlId='email'>
+
+        <Form.Group className='my-3' controlId='email'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type='email'
@@ -68,28 +71,9 @@ const ProfileScreen = () => {
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group className='my-2' controlId='password'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group className='my-2' controlId='confirmPassword'>
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Confirm password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
 
         <Button type='submit' variant='primary' className='mt-3'>
-          Update
+          Update Profile
         </Button>
 
         {isLoading && <Loader />}

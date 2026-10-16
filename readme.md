@@ -7,32 +7,35 @@ This is a starter app for a MERN stack application with authentication. This is 
 It includes the following:
 
 - Backend API with Express & MongoDB
-- Routes for auth, logout, register, profile, update profile
-- JWT authentication stored in HTTP-only cookie
-- Protected routes and endpoints
-- Custom middleware to check JSON web token and store in cookie
-- Custom error middleware
-- React frontend to register, login, logout, view profile, and update profile
+- Quant0 SSO authentication (OAuth 2.1 Authorization Code Flow with PKCE)
+- Token verification via local `q0-agent` sidecar
+- Protected routes and endpoints using Bearer token authentication
+- React frontend with Quant0 hosted login/registration redirect flow
+- Profile management
 - React Bootstrap UI library
 - React Toastify notifications
 
 ## Usage
 
 - Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
-- Create a PayPal account and obtain your `Client ID` - [PayPal Developer](https://developer.paypal.com/)
+- Obtain your Quant0 Application `Client ID` from your Quant0 Dashboard
 
 ### Env Variables
 
-Rename the `.env.example` file to `.env` and add the following
+Rename the `.env.example` file to `.env` and add the following:
 
 ```
-NODE_ENV = development
-PORT = 5000
-MONGO_URI = your mongodb uri
-JWT_SECRET = 'abc123'
-```
+NODE_ENV=development
+PORT=5000
+MONGO_URI=your mongodb uri
 
-Change the JWT_SECRET to what you want
+# Quant0 Config
+QUANT0_AGENT_URL=http://127.0.0.1:9595
+QUANT0_STRICT_AGENT=true
+QUANT0_CLIENT_ID=your_quant0_client_id
+QUANT0_GATEWAY_URL=https://dev-api.quant0.io
+QUANT0_LOGIN_URL=https://dev-auth.quant0.io
+```
 
 ### Install Dependencies (frontend & backend)
 

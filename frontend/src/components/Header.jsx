@@ -4,7 +4,6 @@ import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import { quant0SignOut, hasQuant0Session } from '../utils/quant0';
 
@@ -14,11 +13,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logoutApiCall] = useLogoutMutation();
-
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap();
       dispatch(logout());
       if (hasQuant0Session()) {
         await quant0SignOut();
@@ -26,7 +22,7 @@ const Header = () => {
         navigate('/login');
       }
     } catch (err) {
-      console.error(err);
+      console.error('Logout error:', err);
       dispatch(logout());
       navigate('/login');
     }
