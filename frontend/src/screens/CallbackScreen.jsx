@@ -27,13 +27,12 @@ export default function CallbackScreen() {
         }
 
         // Step 2: Establish session with backend & verify via local q0-agent sidecar
-        const res = await fetch('http://localhost:5000/api/users/quant0-session', {
+        const res = await fetch('/api/users/quant0-session', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${tokens.access_token}`,
           },
-          credentials: 'include',
           body: JSON.stringify({
             id_token: tokens.id_token,
             email: tokens.profile?.email,

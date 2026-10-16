@@ -11,7 +11,6 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 import connectDB from './config/db.js';
-import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -20,11 +19,9 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-app.use(cors( { origin: "http://localhost:3000", credentials: true } ))
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(cookieParser());
 
 app.use('/api/users', userRoutes);
 

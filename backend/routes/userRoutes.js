@@ -1,8 +1,5 @@
 import express from 'express';
 import {
-  authUser,
-  registerUser,
-  logoutUser,
   getUserProfile,
   updateUserProfile,
   quant0Session,
@@ -11,10 +8,10 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', registerUser);
-router.post('/auth', authUser);
-router.post('/logout', logoutUser);
+// Quant0 Session bootstrap
 router.post('/quant0-session', quant0Session);
+
+// Protected routes (Quant0 Bearer Token required)
 router
   .route('/profile')
   .get(protect, getUserProfile)
