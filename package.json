@@ -13,6 +13,7 @@
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "@quant0/sdk-core": "file:backend/vendor/quant0-sdk-core-0.1.0-beta.0.tgz",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.6.1",

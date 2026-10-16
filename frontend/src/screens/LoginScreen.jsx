@@ -7,6 +7,7 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import { redirectToQuant0Login } from '../utils/quant0';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -38,7 +39,27 @@ const LoginScreen = () => {
 
   return (
     <FormContainer>
-      <h1>Sign In</h1>
+      <h1 className='mb-3'>Sign In</h1>
+
+      <Button
+        variant='dark'
+        className='w-100 py-2 mb-3 d-flex align-items-center justify-content-center gap-2 shadow-sm'
+        onClick={() => redirectToQuant0Login()}
+        style={{
+          borderRadius: '8px',
+          fontWeight: 600,
+          background: '#0f172a',
+          borderColor: '#1e293b',
+        }}
+      >
+        <span style={{ fontSize: '1.2rem', color: '#38bdf8' }}>⬡</span> Sign In with Quant0
+      </Button>
+
+      <div className='d-flex align-items-center my-3'>
+        <hr className='flex-grow-1' />
+        <span className='px-2 text-muted small text-uppercase'>or continue with email</span>
+        <hr className='flex-grow-1' />
+      </div>
 
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='email'>

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
+import { quant0SignOut, hasQuant0Session } from '../utils/quant0';
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -19,9 +20,15 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      navigate('/login');
+      if (hasQuant0Session()) {
+        await quant0SignOut();
+      } else {
+        navigate('/login');
+      }
     } catch (err) {
       console.error(err);
+      dispatch(logout());
+      navigate('/login');
     }
   };
 
